@@ -12,10 +12,15 @@ export const StyledList = styled.ul`
   .list {
     width: 200px;
     list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .wrapper {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
   }
 
   .title,
