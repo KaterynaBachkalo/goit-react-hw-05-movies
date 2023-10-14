@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchCast } from 'services/api';
 import { StyledList } from './Cast.styled';
-import imageEmpty from '../../images/empty.png';
+// import imageEmpty from '../../images/empty.png';
 
 const Cast = () => {
   const BaseImgUrl = 'https://image.tmdb.org/t/p/w200';
+  const defaultImg =
+    'https://ireland.apollo.olxcdn.com/v1/files/0iq0gb9ppip8-UA/image;s=1000x700';
   const { movieId } = useParams();
   const [cast, setCast] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,11 +41,15 @@ const Cast = () => {
         {cast &&
           cast.map(({ id, profile_path, name, character }) => (
             <li key={id} className="list">
-              {profile_path ? (
-                <img src={`${BaseImgUrl}${profile_path}`} alt={name} />
-              ) : (
-                <img src={imageEmpty} alt={name} width={200} height={300} />
-              )}
+              {
+                <img
+                  src={
+                    profile_path ? `${BaseImgUrl}${profile_path}` : defaultImg
+                  }
+                  alt="poster"
+                  width={200}
+                />
+              }
 
               <div className="wrapper">
                 <h3 className="title">{name}</h3>
