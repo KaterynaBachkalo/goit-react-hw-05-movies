@@ -2,15 +2,14 @@ import { Loader } from 'components/Loader/Loader';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchCast } from 'services/api';
-import { StyledList } from './Cast.styled';
-// import imageEmpty from '../../images/empty.png';
+import { StyledList, StyledText } from './Cast.styled';
 
 const Cast = () => {
   const BaseImgUrl = 'https://image.tmdb.org/t/p/w200';
   const defaultImg =
     'https://ireland.apollo.olxcdn.com/v1/files/0iq0gb9ppip8-UA/image;s=1000x700';
   const { movieId } = useParams();
-  const [cast, setCast] = useState(null);
+  const [cast, setCast] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -37,9 +36,10 @@ const Cast = () => {
     <div>
       {isLoading && <Loader />}
       {error && <p className="error">{error}</p>}
-      <StyledList>
-        {cast &&
-          cast.map(({ id, profile_path, name, character }) => (
+
+      {cast.length !== 0 ? (
+        <StyledList>
+          {cast.map(({ id, profile_path, name, character }) => (
             <li key={id} className="list">
               {
                 <img
@@ -57,7 +57,10 @@ const Cast = () => {
               </div>
             </li>
           ))}
-      </StyledList>
+        </StyledList>
+      ) : (
+        <StyledText>We don't have any casts for this movie</StyledText>
+      )}
     </div>
   );
 };

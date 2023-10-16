@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom';
 import { StyledContainer } from './Home.styled';
 
 const Home = () => {
+  const BaseImgUrl = 'https://image.tmdb.org/t/p/w400';
+  const defaultImg =
+    'https://ireland.apollo.olxcdn.com/v1/files/0iq0gb9ppip8-UA/image;s=1000x700';
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [movies, setMovies] = useState(null);
@@ -36,7 +40,15 @@ const Home = () => {
             movies.map(movie => (
               <li className="item" key={movie.id}>
                 <Link className="link" to={`/movies/${movie.id}`}>
-                  {movie.title}
+                  <img
+                    src={
+                      movie.poster_path
+                        ? `${BaseImgUrl}${movie.poster_path}`
+                        : defaultImg
+                    }
+                    alt={movie.title}
+                    width={200}
+                  />
                 </Link>
               </li>
             ))}

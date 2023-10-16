@@ -33,6 +33,11 @@ export const StyledContainer = styled.ul`
   margin: 0 auto;
   padding: 0px 15px;
 
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  list-style-type: none;
+
   .link {
     font-size: 20px;
     text-decoration: none;

@@ -1,9 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import { Loader } from './Loader/Loader';
-import { StyledNavLink, StyledNav } from './App.styled';
-
-// import {Layout} from "./Layout"
+import { Layout } from './Layout';
 
 const Home = lazy(() => import('pages/Home/Home'));
 const Movies = lazy(() => import('pages/Movies/Movies'));
@@ -14,22 +12,13 @@ const MovieDetails = lazy(() =>
 export const App = () => {
   return (
     <div>
-      <header>
-        <StyledNav>
-          <StyledNavLink className="" to="/">
-            Home
-          </StyledNavLink>
-          <StyledNavLink className="" to="/movies">
-            Movies
-          </StyledNavLink>
-        </StyledNav>
-      </header>
-
       <Suspense fallback={<Loader />}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route path="/movies/:movieId/*" element={<MovieDetails />} />
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/movies" element={<Movies />} />
+            <Route path="/movies/:movieId/*" element={<MovieDetails />} />
+          </Route>
         </Routes>
       </Suspense>
     </div>

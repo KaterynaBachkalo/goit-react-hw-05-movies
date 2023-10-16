@@ -11,6 +11,13 @@ export const StyledContainer = styled.div`
     text-align: center;
   }
 
+  .list {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    list-style-type: none;
+  }
+
   .link {
     font-size: 20px;
     text-decoration: none;

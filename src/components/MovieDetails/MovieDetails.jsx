@@ -1,18 +1,12 @@
 import { Loader } from 'components/Loader/Loader';
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
-import {
-  Link,
-  NavLink,
-  Route,
-  Routes,
-  useLocation,
-  useParams,
-} from 'react-router-dom';
+import { Link, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { fetchMovieDetails } from 'services/api';
 import {
   StyledAdditional,
   StyledContainer,
   StyledContainerList,
+  StyledNavLink,
 } from './MovieDetails.styled';
 
 const Cast = lazy(() => import('components/Cast/Cast'));
@@ -20,6 +14,8 @@ const Reviews = lazy(() => import('components/Reviews/Reviews'));
 
 const MovieDetails = () => {
   const BaseImgUrl = 'https://image.tmdb.org/t/p/w400';
+  const defaultImg =
+    'https://ireland.apollo.olxcdn.com/v1/files/0iq0gb9ppip8-UA/image;s=1000x700';
   const location = useLocation();
   const backLinkHref = useRef(location.state?.from ?? '/');
 
@@ -50,38 +46,46 @@ const MovieDetails = () => {
 
   return (
     <StyledContainer>
-      <Link to={backLinkHref.current}>Go Back</Link>
+      <Link to={backLinkHref.current} className="link">
+        Go Back
+      </Link>
 
       {isLoading && <Loader />}
       {error && <p className="error">{error}</p>}
 
       {movieById && (
         <StyledContainerList>
-          <img src={`${BaseImgUrl}${poster_path}`} alt={title} />
+          <img
+            src={poster_path ? `${BaseImgUrl}${poster_path}` : defaultImg}
+            alt={title}
+            width={500}
+          />
           <div className="wrapper">
             <h1>{title}</h1>
-            {/* <p>User score:</p> */}
             <h2>Overview</h2>
             <p>{overview}</p>
             <h3>Genres</h3>
-            <ul>
-              {genres &&
-                genres.map(({ id, name }) => {
-                  return <li key={id}>{name}</li>;
-                })}
-            </ul>
+            {genres && genres.length !== 0 ? (
+              <ul>
+                {genres.map(({ id, name }) => (
+                  <li key={id}>{name}</li>
+                ))}
+              </ul>
+            ) : (
+              <p>We don't have any genres for this movie</p>
+            )}
           </div>
         </StyledContainerList>
       )}
 
       <StyledAdditional>
         <h2>Additional Information</h2>
-        <ul>
+        <ul className="list">
           <li>
-            <NavLink to="cast">Cast</NavLink>
+            <StyledNavLink to="cast">Cast</StyledNavLink>
           </li>
           <li>
-            <NavLink to="reviews">Reviews</NavLink>
+            <StyledNavLink to="reviews">Reviews</StyledNavLink>
           </li>
         </ul>
       </StyledAdditional>
